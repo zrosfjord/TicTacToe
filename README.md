@@ -1,9 +1,9 @@
 # TicTacToe
 
 A Java Program that plays TicTacToe. Users can play in three ways:
-*Player vs Player
-*Player vs Bot
-*Bot vs Bot
++ Player vs Player
++ Player vs Bot
++ Bot vs Bot
 
 The program will recognize when the game is done, the program will announce the winner, and then end. To create a new TicTacToe board, just type:
 ```java
