@@ -39,8 +39,10 @@ The Bot is designed to make intelligent and informed decisions. Every turn, it i
 However, it also looks at depth to determine which move to go with. This means, that if there is a move that will lead to a win in 5 turns, and there is a move that will lead to an immediate win, it will go with the immediate win.
 
 Here is an image from http://neverstopbuilding.com which shows this in action.
-
+For more information on depth and its applicability, see their [article][the good fight] on it.
 
 ![alt text][depth minmax]
 
+
+[the good fight]: https://www.neverstopbuilding.com/blog/2013/12/13/tic-tac-toe-understanding-the-minimax-algorithm13#fighting-the-good-fight-depth
 [depth minmax]: https://static1.squarespace.com/static/5a0c6978bff2001ef7581170/t/5a36dbfb085229e36df6b35f/1513544702989/end-states-taking-depth-into-account.png?format=1500w
