@@ -34,4 +34,13 @@ Do keep in mind that the TicTacToe class does implement *Runnable*, so if you wo
 
 ## Bots
 
-The Bot is designed to make intelligent and informed decisions. Every turn, it is running a **MinMax** recursive function. This means that it is assessing every possible scenario, and figuring out which would will lead to the must ideal outcome. However, it also looks at depth to determine which move to go with. This means, that if there is a move that will lead to a win in 5 turns, and there is a move that will lead to an immediate win, it will go with the immediate win.
+The Bot is designed to make intelligent and informed decisions. Every turn, it is running a **MinMax** recursive function. This means that it is assessing every possible scenario, and figuring out which would will lead to the must ideal outcome. 
+
+However, it also looks at depth to determine which move to go with. This means, that if there is a move that will lead to a win in 5 turns, and there is a move that will lead to an immediate win, it will go with the immediate win.
+
+Here is an image from http://neverstopbuilding.com which shows this in action.
+
+
+![alt text][depth minmax]
+
+[depth minmax]: https://static1.squarespace.com/static/5a0c6978bff2001ef7581170/t/5a36dbfb085229e36df6b35f/1513544702989/end-states-taking-depth-into-account.png?format=1500w
