@@ -24,10 +24,7 @@ ticTacToe.setPlayer1(player1);
 ticTacToe.setPlayer2(botO);
 ```
 
-All that is left to do is execute
-```java
-ticTacToe.run();
-```
+All that is left to do is execute: `ticTacToe.run();`
 
 Do keep in mind that the TicTacToe class does implement *Runnable*, so if you would like to run this in a seperate thread, you can.
 
