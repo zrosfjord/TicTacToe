@@ -1,16 +1,15 @@
 package com.zrosfjord.tictactoe;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
-public class Bot {
+public class Bot extends Player {
 
     public static final int REWARD;
     static {
         REWARD = TicTacToe.BOARD_SIZE * TicTacToe.BOARD_SIZE + 1;
     }
-
-    private TicTacToe.Tile tile;
-    private TicTacToe ticTacToe;
 
     private Random random;
 
@@ -23,8 +22,7 @@ public class Bot {
      * @param ticTacToe The board the bot is playing on
      */
     public Bot(TicTacToe.Tile tile, TicTacToe ticTacToe) {
-        this.tile = tile;
-        this.ticTacToe = ticTacToe;
+        super(tile, ticTacToe);
 
         random = new Random();
     }
@@ -32,35 +30,41 @@ public class Bot {
     /**
      * Sets up the opponent bot before the game.
      *
-     * @param b Opponent bot.
+     * @param player Opponent player.
      */
-    public void setOpponent(Bot b) {
-        this.opponent = b;
+    public void setupOpponents(Player player) {
+        if(player instanceof  Bot) {
+            opponent = (Bot) player;
+        } else {
+            opponent = new Bot(player.getTile(), ticTacToe);
+        }
+
+        opponent.opponent = this;
     }
 
     /**
      * Plays the bots turn.
      */
+    @Override
     public void turn() {
         int best = -(REWARD + 1);
 
         // Used when there are moves with the same MinMax score.
         List<Move> bestMoves = new ArrayList<Move>();
 
-        // Copies the current state of the board.
-        TicTacToe copy = new TicTacToe(ticTacToe);
 
         // Iterator through all possible positions
+        System.out.println("Possible Bot Moves:");
         for(int i = 0; i < TicTacToe.BOARD_SIZE; i++) {
             for(int j = 0; j < TicTacToe.BOARD_SIZE; j++) {
 
                 // Checks if the setTile method ran.
-                if(copy.setTile(i, j, tile)) {
+                if(ticTacToe.setTile(i, j, tile)) {
 
                     // MinMax value of that move.
-                    int value = minMax(copy, 0, false);
+                    int value = minMax(ticTacToe, 0, false);
 
-                    System.out.printf("Move Value: %s; (row, col): %s,%s\n", value, i, j);
+                    System.out.printf("  - Move Value: %s; (row, col): %s,%s\n", value, i, j);
 
                     /*
                     If the MinMax value of the current move is the best, it sets that as the best, and makes it the
@@ -75,7 +79,7 @@ public class Bot {
                     }
 
                     // Undoes the move on the board.
-                    copy.clearTile(i, j);
+                    ticTacToe.clearTile(i, j);
                 }
             }
         }

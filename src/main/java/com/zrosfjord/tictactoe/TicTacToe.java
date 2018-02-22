@@ -1,9 +1,13 @@
 package com.zrosfjord.tictactoe;
 
-public class TicTacToe {
+public class TicTacToe implements Runnable {
 
     public static final int BOARD_SIZE = 3;
     public Tile[][] board;
+
+    private Player player1, player2, winner;
+
+    private boolean running, done;
 
     /**
      * Main constructor for the TicTacToe class.
@@ -31,6 +35,50 @@ public class TicTacToe {
                 board[i][j] = ticTacToe.board[i][j];
             }
         }
+
+        player1 = ticTacToe.player1;
+        player2 = ticTacToe.player2;
+
+        running = ticTacToe.running;
+        done = ticTacToe.done;
+    }
+
+    /**
+     * Implemented from Runnable interface. Runs the game.
+     */
+    public void run() {
+        if(running)
+            return;
+
+        running = true;
+
+        if(player1 == null || player2 == null) {
+            running = false;
+            return;
+        }
+
+        System.out.println(this);
+        while(!isWinner(Tile.O) && !isWinner(Tile.X) && !isFilled()) {
+            player1.turn();
+            System.out.println(this);
+
+            if(isWinner(player1.getTile()) || isFilled())
+                break;
+
+            player2.turn();
+            System.out.println(this);
+        }
+
+        // Assign the winner!
+        if(isWinner(player1.getTile()))
+            winner = player1;
+        else if(isWinner(player2.getTile()))
+            winner = player2;
+        else
+            winner = null;
+
+        running = false;
+        done = true;
     }
 
     /**
@@ -161,9 +209,14 @@ public class TicTacToe {
         return board[row][col];
     }
 
+    /**
+     * Used for printing the board
+     *
+     * @return A string representation of the board.
+     */
     @Override
     public String toString() {
-        String boardStr = "";
+        String boardStr = "\n";
         for(int i = 0; i < BOARD_SIZE; i++) {
             boardStr += "|";
             for(int j = 0; j < BOARD_SIZE; j++) {
@@ -176,9 +229,45 @@ public class TicTacToe {
         return boardStr;
     }
 
+    /**
+     * Sets player1
+     *
+     * @param player1 The first player
+     */
+    public void setPlayer1(Player player1) {
+        this.player1 = player1;
+    }
+
+    /**
+     * Sets player2
+     *
+     * @param player2 The second player
+     */
+    public void setPlayer2(Player player2) {
+        this.player2 = player2;
+    }
+
+    /**
+     * Whether or not the game is done.
+     *
+     * @return The boolean done.
+     */
+    public boolean isDone() {
+        return done;
+    }
+
+    /**
+     * Gets the winner
+     *
+     * @return The winning player, or null. Null means it is a tie.
+     */
+    public Player getWinner() {
+        return winner;
+    }
+
 
     public enum Tile {
-        X('x'), O('o'), SPACE(' ');
+        X('X'), O('O'), SPACE(' ');
 
         private char symbol;
 
