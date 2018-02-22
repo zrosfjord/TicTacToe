@@ -30,6 +30,8 @@ public class TicTacToeTester {
             else
                 System.out.println("It was a draw.");
         }
+
+        System.out.println("GG!");
     }
 
 }
