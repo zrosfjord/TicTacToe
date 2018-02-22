@@ -5,12 +5,14 @@ A Java Program that plays TicTacToe. Users can play in three ways:
 + Player vs Bot
 + Bot vs Bot
 
-The program will recognize when the game is done, the program will announce the winner, and then end. To create a new TicTacToe board, just type:
+The program will recognize when the game is done, it will assign a winner, and then end.
+
+To create a new TicTacToe board, just type:
 ```java
 TicTacToe ticTacToe = new TicTacToe();
 ```
 
-From there, you can assign a bot and a player to the game, by doing:
+From there, if you want to start a player vs bot game, you assign a bot and a player to the game, by doing:
 ```java
 Player player1 = new Player(TicTacToe.Tile.X, ticTacToe);
 Bot botO = new Bot(TicTacToe.Tile.O, ticTacToe);
