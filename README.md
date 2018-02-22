@@ -7,6 +7,7 @@ A Java Program that plays TicTacToe. Users can play in three ways:
 
 The program will recognize when the game is done, it will assign a winner, and then end.
 
+## Implementation
 To create a new TicTacToe board, just type:
 ```java
 TicTacToe ticTacToe = new TicTacToe();
