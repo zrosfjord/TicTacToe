@@ -1,4 +1,7 @@
-package com.zrosfjord.tictactoe;
+package test.zrosfjord.tictactoe;
+
+import com.zrosfjord.tictactoe.Bot;
+import com.zrosfjord.tictactoe.TicTacToe;
 
 import java.util.Scanner;
 
@@ -14,7 +17,7 @@ public class TicTacToeTester {
         Scanner scanner = new Scanner(System.in);
 
         // Cheating is the only way the player can win!
-        toe.setTile(0, 1, TicTacToe.Tile.X);
+        // toe.setTile(0, 1, TicTacToe.Tile.X);
 
         // Setting up the bots
         Bot b = new Bot(TicTacToe.Tile.O, toe);
