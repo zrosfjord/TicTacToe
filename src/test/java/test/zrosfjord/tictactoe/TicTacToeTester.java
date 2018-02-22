@@ -17,8 +17,6 @@ public class TicTacToeTester {
         Player player1 = new Player(TicTacToe.Tile.X, toe);
         Bot botO = new Bot(TicTacToe.Tile.O, toe);
 
-        botO.setupOpponents(player1);
-
         toe.setPlayer1(player1);
         toe.setPlayer2(botO);
 

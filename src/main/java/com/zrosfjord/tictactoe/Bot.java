@@ -13,7 +13,7 @@ public class Bot extends Player {
 
     private Random random;
 
-    private Bot opponent;
+    private TicTacToe.Tile opponent;
 
     /**
      * Main Bot constructor
@@ -25,21 +25,8 @@ public class Bot extends Player {
         super(tile, ticTacToe);
 
         random = new Random();
-    }
 
-    /**
-     * Sets up the opponent bot before the game.
-     *
-     * @param player Opponent player.
-     */
-    public void setupOpponents(Player player) {
-        if(player instanceof  Bot) {
-            opponent = (Bot) player;
-        } else {
-            opponent = new Bot(player.getTile(), ticTacToe);
-        }
-
-        opponent.opponent = this;
+        opponent = TicTacToe.Tile.getOpposite(tile);
     }
 
     /**
@@ -100,6 +87,8 @@ public class Bot extends Player {
      * @return The MinMax score of that move.
      */
     public int minMax(TicTacToe toe, int depth, boolean myTurn) {
+        depth += 1;
+
         /*
          If the move results in a win, it returns the reward, minus the depth, in order to encourage the system
          to look for quicker ways to win.
@@ -111,8 +100,8 @@ public class Bot extends Player {
         /*
          If the move results in a lose, it returns the negative of the reward plus the depth, in order to encourage
          the system to stay in the game as long as possible.
-          */
-        if (toe.isWinner(opponent.tile)) {
+        */
+        if (toe.isWinner(opponent)) {
             return -REWARD + depth;
         }
 
@@ -130,7 +119,7 @@ public class Bot extends Player {
             for (int i = 0; i < TicTacToe.BOARD_SIZE; i++) {
                 for (int j = 0; j < TicTacToe.BOARD_SIZE; j++) {
                     if (toe.setTile(i, j, tile)) {
-                        int x = minMax(toe, depth + 1, !myTurn);
+                        int x = minMax(toe, depth, !myTurn);
                         if (x > worst)
                             worst = x;
 
@@ -144,9 +133,17 @@ public class Bot extends Player {
             // Minimizing the opponent's move.
             int best = REWARD + 1;
 
-            int x = -1 * opponent.minMax(toe, depth, !myTurn);
-            if (x < best)
-                best = x;
+            for (int i = 0; i < TicTacToe.BOARD_SIZE; i++) {
+                for (int j = 0; j < TicTacToe.BOARD_SIZE; j++) {
+                    if (toe.setTile(i, j, opponent)) {
+                        int x = minMax(toe, depth, !myTurn);
+                        if (x < best)
+                            best = x;
+
+                        toe.clearTile(i, j);
+                    }
+                }
+            }
 
             return best;
 

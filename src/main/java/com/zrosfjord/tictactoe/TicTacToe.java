@@ -125,7 +125,7 @@ public class TicTacToe implements Runnable {
         }
 
         // Dia
-        diaLoop: for(int i = 0; i < 1; i++) {
+        diaLoop: for(int i = 0; i < 2; i++) {
             for(int j = 0; j < TicTacToe.BOARD_SIZE; j++) {
                 if (getTile(j, j) != tile)
                     break diaLoop;
@@ -135,7 +135,7 @@ public class TicTacToe implements Runnable {
         }
 
         // Reverse Dia
-        revLoop: for(int i = 0; i < 1; i++) {
+        revLoop: for(int i = 0; i < 2; i++) {
             for(int j = TicTacToe.BOARD_SIZE - 1; j >= 0; j--) {
                 if (getTile(j, Math.abs(j - (BOARD_SIZE - 1))) != tile)
                     break revLoop;
@@ -160,7 +160,7 @@ public class TicTacToe implements Runnable {
             return false;
         } else if(row < 0 || col < 0) {
             return false;
-        } if(board[row][col] == Tile.SPACE) {
+        } if(getTile(row, col) == Tile.SPACE) {
             board[row][col] = t;
             return true;
         } else {
@@ -257,6 +257,17 @@ public class TicTacToe implements Runnable {
 
         public char getSymbol() {
             return symbol;
+        }
+
+        public static Tile getOpposite(Tile t) {
+            switch (t) {
+                case X:
+                    return O;
+                case O:
+                    return X;
+            }
+
+            return SPACE;
         }
     }
 
