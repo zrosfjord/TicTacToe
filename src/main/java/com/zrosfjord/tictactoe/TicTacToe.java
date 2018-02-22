@@ -105,11 +105,6 @@ public class TicTacToe implements Runnable {
      */
     public boolean isWinner(Tile tile) {
         // Rows
-        /**
-         * O
-         * XXX
-         *   O
-         */
         rowLoop: for(int i = 0; i < TicTacToe.BOARD_SIZE; i++) {
             for(int j = 0; j < TicTacToe.BOARD_SIZE; j++) {
                 if(getTile(i, j) != tile)
@@ -119,12 +114,7 @@ public class TicTacToe implements Runnable {
             return true;
         }
 
-        // Col
-        /**
-         * O X
-         *  OX
-         *   X
-         */
+        // Columns
         colLoop: for(int j = 0; j < TicTacToe.BOARD_SIZE; j++) {
             for(int i = 0; i < TicTacToe.BOARD_SIZE; i++) {
                 if (getTile(i, j) != tile)
@@ -135,12 +125,7 @@ public class TicTacToe implements Runnable {
         }
 
         // Dia
-        /**
-         * X O
-         *  X
-         * O X
-         */
-        diaLoop: for(int i = 0; i < 2; i++) {
+        diaLoop: for(int i = 0; i < 1; i++) {
             for(int j = 0; j < TicTacToe.BOARD_SIZE; j++) {
                 if (getTile(j, j) != tile)
                     break diaLoop;
@@ -150,12 +135,7 @@ public class TicTacToe implements Runnable {
         }
 
         // Reverse Dia
-        /**
-         * O X
-         *  X
-         * X O
-         */
-        revLoop: for(int i = 0; i < 2; i++) {
+        revLoop: for(int i = 0; i < 1; i++) {
             for(int j = TicTacToe.BOARD_SIZE - 1; j >= 0; j--) {
                 if (getTile(j, Math.abs(j - (BOARD_SIZE - 1))) != tile)
                     break revLoop;

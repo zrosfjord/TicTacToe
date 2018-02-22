@@ -21,15 +21,14 @@ public class TicTacToeTester {
 
         toe.setPlayer1(player1);
         toe.setPlayer2(botO);
+
         toe.run();
 
-        if(toe.isDone()) {
-            Player winner = toe.getWinner();
-            if(winner != null)
-                System.out.println(winner.getTile() + "\'s has won!");
-            else
-                System.out.println("It was a draw.");
-        }
+        Player winner = toe.getWinner();
+        if(winner != null)
+            System.out.println(winner.getTile() + "\'s has won!");
+        else
+            System.out.println("It was a draw.");
     }
 
 }
