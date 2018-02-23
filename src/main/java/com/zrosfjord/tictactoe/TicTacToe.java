@@ -5,9 +5,10 @@ public class TicTacToe implements Runnable {
     public static final int BOARD_SIZE = 3;
     public Tile[][] board;
 
-    private Player player1, player2, winner;
+    private Player player1, player2;
 
     private boolean running, done;
+    private Player winner;
 
     /**
      * Main constructor for the TicTacToe class.
@@ -82,22 +83,6 @@ public class TicTacToe implements Runnable {
     }
 
     /**
-     * Whether of not the board is full
-     *
-     * @return true if the board is full, false if otherwise.
-     */
-    public boolean isFilled() {
-        for(int i = 0; i < BOARD_SIZE; i++) {
-            for(int j = 0; j < BOARD_SIZE; j++) {
-                if(getTile(i, j) == Tile.SPACE)
-                    return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
      * Tests if a tile type is a winner.
      *
      * @param tile The type of tile.
@@ -148,6 +133,22 @@ public class TicTacToe implements Runnable {
     }
 
     /**
+     * Whether of not the board is full
+     *
+     * @return true if the board is full, false if otherwise.
+     */
+    public boolean isFilled() {
+        for(int i = 0; i < BOARD_SIZE; i++) {
+            for(int j = 0; j < BOARD_SIZE; j++) {
+                if(getTile(i, j) == Tile.SPACE)
+                    return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * Sets a tile in a row in col.
      *
      * @param row The row to set it in.
@@ -169,6 +170,23 @@ public class TicTacToe implements Runnable {
     }
 
     /**
+     * Gets a tile at a given row and col
+     *
+     * @param row The row you want to check out
+     * @param col The column you want to check out
+     * @return The tile that is there.
+     */
+    public Tile getTile(int row, int col) {
+        if (row >= BOARD_SIZE || col >= BOARD_SIZE) {
+            return null;
+        } else if(row < 0 || col < 0) {
+            return null;
+        } else {
+            return board[row][col];
+        }
+    }
+
+    /**
      * Resets a tile back to SPACE
      *
      * @param row The row of the tile you want to clear.
@@ -179,14 +197,15 @@ public class TicTacToe implements Runnable {
     }
 
     /**
-     * Gets a tile at a given row and col
-     *
-     * @param row The row you want to check out
-     * @param col The column you want to check out
-     * @return The tile that is there.
+     * Clear the board
      */
-    public Tile getTile(int row, int col) {
-        return board[row][col];
+    public void clearBoard() {
+        board = new Tile[BOARD_SIZE][BOARD_SIZE];
+        for(int i = 0; i < BOARD_SIZE; i++) {
+            for(int j = 0; j < BOARD_SIZE; j++) {
+                board[i][j] = Tile.SPACE;
+            }
+        }
     }
 
     /**
@@ -208,6 +227,7 @@ public class TicTacToe implements Runnable {
 
         return boardStr;
     }
+
 
     /**
      * Sets player1

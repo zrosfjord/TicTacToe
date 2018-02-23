@@ -6,13 +6,9 @@ import java.util.Random;
 
 public class Bot extends Player {
 
-    public static final int REWARD;
-    static {
-        REWARD = TicTacToe.BOARD_SIZE * TicTacToe.BOARD_SIZE + 1;
-    }
+    private static final int BIG_NUMBER = Integer.MAX_VALUE;
 
     private Random random;
-
     private TicTacToe.Tile opponent;
 
     /**
@@ -25,7 +21,6 @@ public class Bot extends Player {
         super(tile, ticTacToe);
 
         random = new Random();
-
         opponent = TicTacToe.Tile.getOpposite(tile);
     }
 
@@ -34,11 +29,10 @@ public class Bot extends Player {
      */
     @Override
     public void turn() {
-        int best = -(REWARD + 1);
+        int best = -BIG_NUMBER;
 
         // Used when there are moves with the same MinMax score.
         List<Move> bestMoves = new ArrayList<Move>();
-
 
         // Iterator through all possible positions
         System.out.println("Possible Bot Moves:");
@@ -49,7 +43,7 @@ public class Bot extends Player {
                 if(ticTacToe.setTile(i, j, tile)) {
 
                     // MinMax value of that move.
-                    int value = minMax(ticTacToe, 0, false);
+                    int value = minMax(ticTacToe, 0, -BIG_NUMBER, BIG_NUMBER, false);
 
                     System.out.printf("  - Move Value: %s; (row, col): %s,%s\n", value, i, j);
 
@@ -83,18 +77,18 @@ public class Bot extends Player {
      *
      * @param toe The board
      * @param depth How many moves in is it.
-     * @param myTurn Whose turn it is.
+     * @param alpha Best max score.
+     * @param beta Best min score.
+     * @param max Whose turn it is.
      * @return The MinMax score of that move.
      */
-    public int minMax(TicTacToe toe, int depth, boolean myTurn) {
-        depth += 1;
-
+    public int minMax(TicTacToe toe, int depth, int alpha, int beta, boolean max) {
         /*
          If the move results in a win, it returns the reward, minus the depth, in order to encourage the system
          to look for quicker ways to win.
           */
         if (toe.isWinner(tile)) {
-            return  REWARD - depth;
+            return  10 - depth;
         }
 
         /*
@@ -102,7 +96,7 @@ public class Bot extends Player {
          the system to stay in the game as long as possible.
         */
         if (toe.isWinner(opponent)) {
-            return -REWARD + depth;
+            return -10 + depth;
         }
 
         /*
@@ -112,58 +106,81 @@ public class Bot extends Player {
             return 0;
         }
 
-        if (myTurn) {
-            // Maximising your move.
-            int worst = -(REWARD + 1);
+        // MinMax switch
+        if (max) {
+            // Maximizing your moves.
+            int low = -BIG_NUMBER;
 
+            maxLoop:
             for (int i = 0; i < TicTacToe.BOARD_SIZE; i++) {
                 for (int j = 0; j < TicTacToe.BOARD_SIZE; j++) {
                     if (toe.setTile(i, j, tile)) {
-                        int x = minMax(toe, depth, !myTurn);
-                        if (x > worst)
-                            worst = x;
+                        low = Math.max(low, minMax(toe, depth + 1, alpha, beta, !max));
+                        alpha = Math.max(low, alpha);
 
                         toe.clearTile(i, j);
+
+                        // Beta Cutoff
+                        if(alpha >= beta) break maxLoop;
                     }
                 }
             }
 
-            return worst;
+            return low;
         } else {
             // Minimizing the opponent's move.
-            int best = REWARD + 1;
+            int high = BIG_NUMBER;
 
+            minLoop:
             for (int i = 0; i < TicTacToe.BOARD_SIZE; i++) {
                 for (int j = 0; j < TicTacToe.BOARD_SIZE; j++) {
                     if (toe.setTile(i, j, opponent)) {
-                        int x = minMax(toe, depth, !myTurn);
-                        if (x < best)
-                            best = x;
+                        high = Math.min(high, minMax(toe, depth + 1, alpha, beta, !max));
+                        beta = Math.min(high, beta);
 
                         toe.clearTile(i, j);
+
+                        // Alpha Cutoff
+                        if(alpha >= beta) break minLoop;
                     }
                 }
             }
 
-            return best;
-
+            return high;
         }
     }
+
 
     public class Move {
 
         private int row;
         private int col;
 
+        /**
+         * Constructor for Move class
+         *
+         * @param row The row
+         * @param col The col
+         */
         public Move(int row, int col) {
             this.row = row;
             this.col = col;
         }
 
+        /**
+         * Gets the row
+         *
+         * @return The row
+         */
         public int getRow() {
             return row;
         }
 
+        /**
+         * Gets the column
+         *
+         * @return The column
+         */
         public int getCol() {
             return col;
         }

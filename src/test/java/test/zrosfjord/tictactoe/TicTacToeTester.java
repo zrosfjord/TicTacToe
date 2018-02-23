@@ -23,7 +23,7 @@ public class TicTacToeTester {
         toe.run();
 
         Player winner = toe.getWinner();
-        if(winner != null)
+        if (winner != null)
             System.out.println(winner.getTile() + "\'s has won!");
         else
             System.out.println("It was a draw.");
